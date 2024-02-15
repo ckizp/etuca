@@ -1,0 +1,33 @@
+main {
+    display: flex;
+    gap: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    gap: 2em;
+    margin: 0 50px;
+}
+
+.container > article {
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.article-img {
+    display: flex;
+    width: 100%;
+    min-height: 200px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+article img {
+    max-height: 200px;
+    max-width: 100%;
+    border-radius: 20px;
+}

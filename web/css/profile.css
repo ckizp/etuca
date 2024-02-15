@@ -1,0 +1,54 @@
+.profile {
+  box-shadow: 0px 5px 13px rgba(0, 0, 0, 0.6);
+  max-width: 250px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+  font-size: 13px;
+}
+
+.profile img {
+  width: 50%;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.social {
+  margin: 20px 0;
+}
+
+button {
+  text-align: center;
+  background-color: #379683;
+  color: white;
+  font-size: 15px;
+  width: 100%;
+  padding: 20px 40px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 25px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #266b5d;
+}
+
+button:active {
+  background-color: #379683;
+}
+
+#acceptButton, #declineButton {
+  width: 80%;
+  font-size: 13px;
+}
+
+#declineButton {
+  margin-top: 5px;
+  background-color: #ff5e5b;
+}
+
+#declineButton:hover {
+  cursor: pointer;
+  background-color: #d7385e;
+}
