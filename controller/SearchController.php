@@ -40,16 +40,9 @@ class SearchController {
                 $id = $result["user_id"];
                 $user = new UserModel($id, $connexion);
                 $response .= "<li class='friend'><a href='index.php?action=profile&user=$userName'>";
-                
-                $imageData = $user->getProfilePicture();
-                $imageString = stream_get_contents($imageData);
-                if ($imageData && !empty($imageString)) {
-                    $imageBase64 = base64_encode($imageString);
-                    $imageSrc = "data:image/png;base64," . $imageBase64;
-                    $response .= "<img src='$imageSrc' alt='Image de profil'>";
-                } else {
-                    $response .= "<img src='web/img/default_profile_picture.png' alt='Image de profil par défaut'>";
-                }
+                $profileURI = $user->getProfilePicture()->toURI();
+                $response .= "<img src='$profileURI' alt='Image de profil'>";
+    
     
                 $response .= "$userName</a></li>";
             }

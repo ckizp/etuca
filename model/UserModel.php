@@ -49,8 +49,16 @@ class UserModel extends AbstractModel {
         return $this->runQuery("SELECT phone_number FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
     }
 
-    public function getProfilePicture() {//: Image {
-        return $this->runQuery("SELECT profile_picture FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
+    public function getProfilePicture() {
+        return new Image($this->runQuery("SELECT profile_picture FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn());
+    }
+
+    public function isAdmin() {
+        return $this->runQuery("SELECT admin FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
+    }
+
+    public function getRegistrationDate() {
+        return $this->runQuery("SELECT registration_date FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
     }
 
     public function getPublications() : array {

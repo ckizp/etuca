@@ -7,7 +7,10 @@ use controller\PublicationsController;
 use controller\FriendsController;
 use controller\SearchController;
 use controller\ProfileController;
+use controller\AdminController;
+use data_base\DataBase;
 use Exception;
+use Model\UserModel;
 use vue\Vue;
 
 require_once __DIR__ . "/../controller/HomeController.php";
@@ -17,6 +20,8 @@ require_once __DIR__ . "/../controller/PublicationsController.php";
 require_once __DIR__ . "/../controller/FriendsController.php";
 require_once __DIR__ . "/../controller/SearchController.php";
 require_once __DIR__ . "/../controller/ProfileController.php";
+require_once __DIR__ . "/../controller/AdminController.php";
+require_once __DIR__ . "/../data_base/DataBase.php";
 
 class Routeur {
     private $homeController;
@@ -26,6 +31,7 @@ class Routeur {
     private $friendsController;
     private $searchController;
     private $profileController;
+    private $adminController;
 
     public function __construct() {
         $this->homeController = new HomeController();
@@ -35,6 +41,7 @@ class Routeur {
         $this->friendsController = new FriendsController();
         $this->searchController = new SearchController();
         $this->profileController = new ProfileController();
+        $this->adminController = new AdminController();
     }
 
     // Fonction pour gérer les requêtes
@@ -53,6 +60,8 @@ class Routeur {
                 $vue->displayWithoutTemplate([]);
                 return;
             }
+
+            $connexion = DataBase::connect();
 
             switch($_GET["action"]) {
                 case "home":
@@ -96,6 +105,15 @@ class Routeur {
                     break;
                 case "comments":
                     $this->publicationsController->displayComments();
+                    break;
+                case "admin":
+                    $user = new UserModel($_SESSION['user'], $connexion);
+                    if ($user->isAdmin())
+                        $this->adminController->displayAdmin();
+                    else {
+                        $vue = new Vue("404");
+                        $vue->displayWithoutTemplate([]);
+                    }
                     break;
                 default:
                     $vue = new Vue("404");

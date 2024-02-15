@@ -9,8 +9,13 @@ class Image {
     }
 
     public function toURI() {
-        if($this->blob == null)
-            return "img/default_profile_picture.png";
-        return "data:image/png;base64," . base64_encode($this->blob);
+        $imageString = stream_get_contents($this->blob);
+        if ($this->blob && !empty($imageString)) {
+            $imageBase64 = base64_encode($imageString);
+            $imageSrc = "data:image/png;base64," . $imageBase64;
+        } else {
+            $imageSrc = "web/img/default_profile_picture.png";
+        }
+        return $imageSrc;
     }
 }

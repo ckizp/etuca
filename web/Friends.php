@@ -17,17 +17,7 @@
             foreach ($friends as $user) : ?>
                 <li class="friend">
                     <a href="index.php?action=profile&user=<?= $user->getUserName(); ?>">
-                        <?php
-                            $imageData = $user->getProfilePicture();
-                            $imageString = stream_get_contents($imageData);
-                            if ($imageData && !empty($imageString)) {
-                                $imageBase64 = base64_encode($imageString);
-                                $imageSrc = "data:image/png;base64," . $imageBase64;
-                                echo "<img src='$imageSrc' alt='Image de profil'>";
-                            } else {
-                                echo "<img src='web/img/default_profile_picture.png' alt='Image de profil par défaut'>";
-                            }
-                        ?>
+                    <img src='<?= $user->getProfilePicture()->toURI(); ?>' alt='Image de profil'>
                     <?= $user->getUserName(); ?>
                     </a>
                 </li>

@@ -1,0 +1,28 @@
+.user {
+    width: 200px;
+    text-align: center;
+    padding: 3px;
+    background-color: white;
+    color: #111111;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    border: 1px solid #111111;
+}
+
+.user label {
+    font-size: 19px;
+}
+
+.user p {
+    font-size: 13px;
+}
+
+.user img {
+    display: block;
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+}

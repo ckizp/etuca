@@ -36,7 +36,7 @@ class RegisterController {
 
         // On récupère les informations de l'utilisateur du form et on insère dans la base de données.
         try {
-            $commande_insertion = $connexion->prepare("INSERT INTO users (username, firstname, lastname, email, password, phone_number, profile_picture) VALUES (:username, :firstname, :lastname, :email, :password, :phone, :picture)");
+            $commande_insertion = $connexion->prepare("INSERT INTO users (username, firstname, lastname, email, password, phone_number, profile_picture, registration_date) VALUES (:username, :firstname, :lastname, :email, :password, :phone, :picture, :date)");
             $commande_insertion->bindParam(':username', $_POST['username']);
             $commande_insertion->bindParam(':firstname', $_POST['firstname']);
             $commande_insertion->bindParam(':lastname', $_POST['lastname']);
@@ -44,6 +44,7 @@ class RegisterController {
             $commande_insertion->bindParam(':password', $mdp_hashed);
             $commande_insertion->bindParam(':phone', $_POST['phone']);
             $commande_insertion->bindParam(':picture', $blob, PDO::PARAM_LOB);
+            $commande_insertion->bindParam(':date', date("Y-m-d H:i:s"));
             $commande_insertion->execute();
         } catch (Exception $e) {
             echo $e->getMessage();
