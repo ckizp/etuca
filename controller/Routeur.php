@@ -115,6 +115,15 @@ class Routeur {
                         $vue->displayWithoutTemplate([]);
                     }
                     break;
+                case "userinfos":
+                    $user = new UserModel($_SESSION['user'], $connexion);
+                    if ($user->isAdmin())
+                        $this->adminController->displayUserInfos();
+                    else {
+                        $vue = new Vue("404");
+                        $vue->displayWithoutTemplate([]);
+                    }
+                    break;
                 default:
                     $vue = new Vue("404");
                     $vue->displayWithoutTemplate([]);

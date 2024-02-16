@@ -4,6 +4,7 @@ use PDO;
 
 require_once __DIR__ . "/AbstractModel.php";
 require_once __DIR__ . "/Reaction.php";
+require_once __DIR__ . "/Image.php";
 require_once __DIR__ . "/CommentModel.php";
 
 class PublicationModel extends AbstractModel {
@@ -31,7 +32,7 @@ class PublicationModel extends AbstractModel {
     }
 
     public function getImage() {
-        return $this->runQuery("SELECT image FROM publications WHERE publication_id = :id", [":id" => $this->id])->fetchColumn();
+        return new Image($this->runQuery("SELECT image FROM publications WHERE publication_id = :id", [":id" => $this->id])->fetchColumn());
     }
 
     public function getReactions() {
