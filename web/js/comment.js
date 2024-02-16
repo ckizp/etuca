@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $(document).on('click', 'article', function() {
-        var pubid = $(this).attr('pubid');
+    $(document).on('click', '#show-comment', function() {
+        var pubid = $(this).attr('pubid'); 
 
         console.log(pubid);
 

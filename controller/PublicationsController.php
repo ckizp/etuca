@@ -3,7 +3,6 @@ namespace controller;
 use data_base\DataBase;
 use Model\PublicationModel;
 use Model\UserModel;
-
 use vue\Vue;
 use PDO;
 
@@ -94,6 +93,8 @@ class PublicationsController {
             } else {
                 $response .= "<img src='web/img/default_profile_picture.png' alt='Image de profil par défaut'>";
             }
+            //taille de l'image
+            $response .= "<style>.commenter img {width: 50px; height: 50px;}</style>";
             $response .= "</a>";
             $content = $comment->getContent();
             $response .= "<div><a href='index.php?action=profile&user=$username'><p class='username'>$username</p></a>";
@@ -104,5 +105,33 @@ class PublicationsController {
 
         // On affiche la réponse
         echo $response;
+    }
+
+    public function comment() {
+        if (!isset($_POST['content']) || empty($_POST['content'])) {
+            echo "Erreur lors de la récupération du commentaire";
+            return;
+        }
+
+        if (!isset($_POST['publication']) || empty($_POST['publication'])) {
+            echo "Erreur lors de la récupération de la publication";
+            return;
+        }
+
+        $connexion = DataBase::connect();
+        $publicationId = $_POST['publication'];
+        $userId = $_SESSION['user'];
+        $content = $_POST['content'];
+        $comm_date = date("Y-m-d H:i:s");
+
+        $query = $connexion->prepare("INSERT INTO comments (content, user_id, publication_id, comment_date) VALUES (:content, :user_id, :publication_id, :comment_date)");
+        $query->bindParam(":content", $content);
+        $query->bindParam(":user_id", $userId);
+        $query->bindParam(":publication_id", $publicationId);
+        $query->bindParam(":comment_date", $comm_date);
+        $query->execute();
+
+        header("Location: index.php?action=home");
+        exit();
     }
 }

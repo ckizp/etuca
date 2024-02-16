@@ -106,6 +106,9 @@ class Routeur {
                 case "comments":
                     $this->publicationsController->displayComments();
                     break;
+                case "comment":
+                    $this->publicationsController->comment();
+                    break;
                 case "admin":
                     $user = new UserModel($_SESSION['user'], $connexion);
                     if ($user->isAdmin())
