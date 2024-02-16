@@ -86,10 +86,10 @@ class PublicationsController {
             $response .= "<a href='index.php?action=profile&user=$username'>";
             $imageData = $user->getProfilePicture();
             $imageString = stream_get_contents($imageData);
-            if ($imageData && !empty($imageString)) {
+            if ($imageData) {
                 $imageBase64 = base64_encode($imageString);
                 $imageSrc = "data:image/png;base64," . $imageBase64;
-                $response .= "<img src='$imageSrc' alt='Image de profil'>";
+                $response .= "<img src='$imageSrc' alt='Image de profil de $username'>";        
             } else {
                 $response .= "<img src='web/img/default_profile_picture.png' alt='Image de profil par défaut'>";
             }
