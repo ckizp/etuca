@@ -8,7 +8,7 @@ class DataBase {
     static $port = "5432";
     static $username = "student01";
     static $password = "<jvtwV!48515>";
-    static $dbname = "student01";
+    static $dbname = "student01"; 
 
     static $conn = null;
 

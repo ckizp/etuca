@@ -18,11 +18,37 @@
     margin-top: 28px;
 }
 
-.infos img {
-    width: 100px;
-    height: 100px;
+.profile-picture {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border: 2px solid #111111;
 }
 
+.profile-picture * {
+    position: absolute;
+}
+
+.profile-picture img {
+    width: 120px;
+    height: 120px;
+}
+
+.profile-picture #photo {
+    width: 20px;
+    height: 20px;
+    margin: 5px 0 0 5px;
+}
+
+.infos img {
+    cursor: pointer;
+}
+
+.infos ul img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
@@ -63,6 +89,10 @@
     margin-bottom: 4px;
     border-radius: 5px;
     border: 1px solid #111111;
+}
+
+.user:hover, .user *:hover {
+    cursor: pointer;
 }
 
 .user label {
