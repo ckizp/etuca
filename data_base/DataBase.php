@@ -4,11 +4,11 @@ use PDO;
 use PDOException;
 
 class DataBase {
-    static $servername = "";
-    static $port = "";
-    static $username = "";
-    static $password = "";
-    static $dbname = "";
+    static $servername = "localhost";
+    static $port = "5432";
+    static $username = "student01";
+    static $password = "<jvtwV!48515>";
+    static $dbname = "student01";
 
     static $conn = null;
 
