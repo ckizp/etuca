@@ -1,3 +1,56 @@
+.admin-panel {
+    display: flex;
+    justify-content: space-around;
+}
+
+#user-activity {
+    background-color: white;
+    width: calc(100% - 500px);
+    border-radius: 5px;
+    border: 1px solid #111111;
+}
+
+.infos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 28px;
+}
+
+.infos img {
+    width: 100px;
+    height: 100px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    gap: 2em;
+    margin: 28px;
+}
+
+.container > div {
+    padding: 30px;
+    border-radius: 20px;
+    background-color: #F1F1F1;
+}
+
+.publication-img {
+    display: flex;
+    width: 100%;
+    min-height: 200px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.publication img {
+    max-height: 200px;
+    max-width: 100%;
+    border-radius: 20px;
+}
+
 .user {
     width: 200px;
     text-align: center;
