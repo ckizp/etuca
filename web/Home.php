@@ -27,18 +27,17 @@
             </div>
             
             <div> 
-                <h3 id="show-comment-<?= $pubid ?>">Voir les commentaires</h3>
-                <div id="comment-section">
-                    <div id="comment-section-<?= $pubid ?>">
-                        <div id="comments"></div>
-                    </div>
+                <a href="#" class="show-comment" data-pubid="<?= $pubid ?>" style="text-decoration:none; color: inherit;">Voir les commentaires</a>
+                <div class="comment-section" id="comment-section-<?= $pubid ?>" style="display:none;">
+                    <div class="comments" id="comments-<?= $pubid ?>"></div>
                     <form action="index.php?action=comment" method="post">
                         <input type="hidden" name="publication" value="<?= $pubid ?>">
-                        <textarea name="content" id="content" cols="30" rows="1"></textarea>
+                        <textarea name="content" cols="20" rows="1"></textarea>
                         <input type="submit" value="Commenter">
                     </form>
                 </div>
             </div>
+
         </article>
     <?php endforeach; ?>
 </div>
