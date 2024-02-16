@@ -33,3 +33,4 @@ class CommentModel extends AbstractModel {
         return $this->runQuery("SELECT comment_date FROM comments WHERE comment_id = :id", [":id" => $this->id])->fetchColumn();
     }
 }
+?>

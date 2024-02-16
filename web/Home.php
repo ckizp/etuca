@@ -11,6 +11,11 @@
         $pubid = $publication->getPublicationId();
     ?>
         <article pubid="<?= htmlspecialchars($pubid); ?>">
+             <?php
+                $author = new \Model\UserModel($publication->getUserId(), \data_base\DataBase::connect());
+                echo "posté par <a href='index.php?action=profile&user=" . $author->getUserName(). "'>" . $author->getUserName() . "</a>";
+            ?>
+
             <h2><?= $publication->getTitle() ?></h2>
             <?php echo "<p>" . $publication->getDescription() . "</p>"; ?>
 
@@ -28,12 +33,24 @@
                 }
                 ?>
             </div>
-
-            <?php
-                $author = new \Model\UserModel($publication->getUserId(), \data_base\DataBase::connect());
-                echo "posté par <a href='index.php?action=profile&user=" . $author->getUserName(). "'>" . $author->getUserName() . "</a>";
-            ?>
+            <div class="reactions">
+                <button class="like" onclick="react('like', <?= $pubid ?>)">J'aime</button>
+                <button class="dislike" onclick="react('dislike', <?= $pubid ?>)">Je n'aime pas</button>
+            </div>
+            
+            <div> 
+                <h3 id="show-comment-<?= $pubid ?>">Voir les commentaires</h3>
+                <div id="comment-section">
+                    <div id="comment-section-<?= $pubid ?>">
+                        <div id="comments"></div>
+                    </div>
+                    <form action="index.php?action=comment" method="post">
+                        <input type="hidden" name="publication" value="<?= $pubid ?>">
+                        <textarea name="content" id="content" cols="30" rows="1"></textarea>
+                        <input type="submit" value="Commenter">
+                    </form>
+                </div>
+            </div>
         </article>
     <?php endforeach; ?>
-    <div id="comments"></div>
 </div>
