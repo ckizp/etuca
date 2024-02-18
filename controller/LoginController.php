@@ -65,6 +65,11 @@ class LoginController {
         if (!password_verify($_POST['password'], $user['password'])) {
             return "Mot de passe incorrect";
         }
+
+        // Vérifier si l'utilisateur est banni
+        if ($user['is_banned'] == true) {
+            return "Vous êtes banni d'Etuca !";
+        }
     
         // Authentification réussie, définir la session utilisateur
         $_SESSION['user'] = $user['user_id'];

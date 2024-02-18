@@ -26,13 +26,94 @@ article img {
     border-radius: 20px;
 }
 
-#comment-section {
-    display: absolute;
-    flex-direction: column;
+.author {
+    margin-bottom: 10px;
+}
+
+.author a {
+    display: flex;
     align-items: center;
+}
+
+.author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.publication-title {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.reactions {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.reactions div {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.reactions img {
+    width: 25px;
+    height: 25px;
+    margin-right: 4px;
+}
+
+.dislike img {
+    rotate: 180deg;
+}
+
+#action form {
     margin-top: 20px;
 }
 
-#show-comment.onclick ~ #comment-section {
+.comment {
     display: flex;
+    align-items: center;
+    margin-top: 3px;
+    padding: 4px;
+    border-radius: 6px;
+    background-color: #f4f7f8;
+    position: relative;
+}
+
+.comment a img {
+    width: 50px;
+    height: 50px;
+    margin-right: 14px;
+}
+
+.comment div {
+    width: calc(100% - 80px);
+}
+
+.comment p {
+    word-wrap: break-word;
+}
+
+#action button {
+    margin-top: 0;
+}
+
+.comment .date {
+    font-size: 11px;
+    color: #a5a5a5;
+}
+
+.comment .username {
+    color: #101eed;
+}
+
+.comment .delete-comment {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }

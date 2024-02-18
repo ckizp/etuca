@@ -21,6 +21,6 @@ class Reaction extends AbstractModel {
     }
 
     public function isLike() {
-        return $this->runQuery("SELECT like FROM reactions WHERE reaction_id = :id", [":id" => $this->id])->fetchColumn();
+        return $this->runQuery("SELECT is_like FROM reactions WHERE reaction_id = :id", [":id" => $this->id])->fetchColumn();
     }
 }

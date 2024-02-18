@@ -13,6 +13,10 @@ class CommentModel extends AbstractModel {
         parent::__construct($dataBase);
     }
 
+    public function getId(): int {
+        return $this->id;
+    }
+
     public function getUserId() {
         return $this->runQuery("SELECT user_id FROM comments WHERE comment_id = :id", [":id" => $this->id])->fetchColumn();
     }

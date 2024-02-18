@@ -62,6 +62,56 @@ class Routeur {
             }
 
             $connexion = DataBase::connect();
+            $user = new UserModel($_SESSION['user'], $connexion);
+
+            if ($user->isAdmin()) {
+                switch($_GET["action"]) {
+                    case "admin":
+                        $this->adminController->displayAdmin();
+                        return;
+                    case "userinfos":
+                        $this->adminController->displayUserInfos();
+                        return;
+                    case "delete-photo":
+                        $this->adminController->deletePhoto();
+                        return;
+                    case "delete-phone":
+                        $this->adminController->deletePhone();
+                        return;
+                    case "write-mail":
+                        $this->adminController->writeMail();
+                        return;
+                    case "edit-username":
+                        $this->adminController->editUsername();
+                        return;
+                    case "edit-name":
+                        $this->adminController->editName();
+                        return;
+                    case "edit-email":
+                        $this->adminController->editEmail();
+                        return;
+                    case "delete-comment":
+                        $this->adminController->deleteComment();
+                        return;
+                    case "new-name":
+                        $this->adminController->newName();
+                        return;
+                    case "new-username":
+                        $this->adminController->newUsername();
+                        return;
+                    case "new-email":
+                        $this->adminController->newEmail();
+                        return;
+                    case "ban":
+                        $this->adminController->setBanned(true);
+                        return;
+                    case "unban":
+                        $this->adminController->setBanned(false);
+                        return;
+                    case "admin-search";
+                        $this->adminController->searchUsers();
+                        return;}
+            }
 
             switch($_GET["action"]) {
                 case "home":
@@ -109,25 +159,19 @@ class Routeur {
                 case "comment":
                     $this->publicationsController->comment();
                     break;
-                case "admin":
-                    $user = new UserModel($_SESSION['user'], $connexion);
-                    if ($user->isAdmin())
-                        $this->adminController->displayAdmin();
-                    else {
-                        $vue = new Vue("404");
-                        $vue->displayWithoutTemplate([]);
-                    }
+                case "like":
+                    $this->publicationsController->react(true);
                     break;
-                case "userinfos":
-                    $user = new UserModel($_SESSION['user'], $connexion);
-                    if ($user->isAdmin())
-                        $this->adminController->displayUserInfos();
-                    else {
-                        $vue = new Vue("404");
-                        $vue->displayWithoutTemplate([]);
-                    }
+                case "dislike":
+                    $this->publicationsController->react(false);
                     break;
-                default:
+                case "edit-picture":
+                    $this->profileController->editPicture();
+                    break;
+                case "new-picture":
+                    $this->profileController->newPicture();
+                    break;
+                default;
                     $vue = new Vue("404");
                     $vue->displayWithoutTemplate([]);
                     break;

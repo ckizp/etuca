@@ -130,6 +130,54 @@ footer {
     color: #05386B;
 }
 
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+#action {
+    position: relative;
+    width: 370px;
+    max-width: 370px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#action h2 {
+    margin-top: 30px;
+}
+
+.permanent {
+    background-color: #db1010;
+}
+
+
+.permanent:hover {
+    cursor: pointer;
+    background-color: #910f0f;
+}
+
+.permanent:active {
+    background-color: #db1010;
+}
+
+.close {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+}
+
 @media (max-width: 1000px) {
     .navbar .logo {
         text-align: center;

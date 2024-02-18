@@ -76,32 +76,35 @@ class PublicationsController {
         $publication = new PublicationModel($publicationId, $connexion);
         $comments = $publication->getComments();
 
+        $session = new UserModel($_SESSION['user'], $connexion);
+
         // On crée la réponse
-        $response = "<ul>";
+        $response = "<h2>Commentaires</h2><ul>";
 
         foreach($comments as $comment) {
             $user = new UserModel($comment->getUserId(), $connexion);
-            $response .= "<li class='commenter'>";
+            $response .= "<li class='comment'>";
             $username = $user->getUserName();
             $response .= "<a href='index.php?action=profile&user=$username'>";
-            $imageData = $user->getProfilePicture();
-            $imageString = stream_get_contents($imageData);
-            if ($imageData) {
-                $imageBase64 = base64_encode($imageString);
-                $imageSrc = "data:image/png;base64," . $imageBase64;
-                $response .= "<img src='$imageSrc' alt='Image de profil de $username'>";        
-            } else {
-                $response .= "<img src='web/img/default_profile_picture.png' alt='Image de profil par défaut'>";
-            }
-            //taille de l'image
-            $response .= "<style>.commenter img {width: 50px; height: 50px;}</style>";
+            $response .= "<img src='" . $user->getProfilePicture()->toURI() . "' alt='Image de profil de $username'>";        
             $response .= "</a>";
             $content = $comment->getContent();
-            $response .= "<div><a href='index.php?action=profile&user=$username'><p class='username'>$username</p></a>";
-            $response .= "<p>$content</p></div></li>";
+            $response .= "<div>";
+            if ($session->isAdmin()) {
+                $response .= "<img class='delete-comment' id='" . $comment->getId() . "' src='web/img/can.png' alt='Icône de suppression'>";
+            }
+            $response .= "<a href='index.php?action=profile&user=$username'><p class='username'>$username</p></a>";
+            $response .= "<p>$content</p><p class='date'>" . $comment->getTimeStamp() . "</p></div></li>";
         }
 
         $response .= "</ul>";
+
+        $response .= "<form id='send-comment' pubid='" . $publicationId . "' action='index.php?action=comment' method='post'>";
+        $response .= "<input type='hidden' name='publication' value='$publicationId'>";
+        $response .= "<textarea name='content' placeholder='Votre commentaire'></textarea>";
+        $response .= "<button id='" . $publicationId . "'type='submit'>Commenter</button></form>";
+
+        $response .= "<img class='close' src='web/img/cross.png' alt='Icône de fermeture'>";
 
         // On affiche la réponse
         echo $response;
@@ -131,6 +134,24 @@ class PublicationsController {
         $query->bindParam(":comment_date", $comm_date);
         $query->execute();
 
+        exit();
+    }
+
+    public function react($reaction) {
+        if (!isset($_GET['publication'])) {
+            echo "Erreur lors de la récupération de la publication";
+            return;
+        }
+    
+        $connexion = DataBase::connect();
+        $publicationId = $_GET['publication'];
+        $publication = new PublicationModel($publicationId, $connexion);
+
+        $userId = $_SESSION['user'];
+        $user = new UserModel($userId, $connexion);
+    
+        $user->react($publication, $reaction);
+    
         header("Location: index.php?action=home");
         exit();
     }

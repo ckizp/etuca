@@ -1,12 +1,8 @@
-$(document).ready(function()
-{
-    $('#inputSearch').on('input', function()
-    {
+$(document).ready(function() {
+    $('#inputSearch').on('input', function() {
         var div = $("#resultSearch");
         if(!div.is(':visible'))
-        {
             div.show();
-        }
         var text = $(this).val();
 
         $.ajax({
@@ -19,4 +15,3 @@ $(document).ready(function()
         });
     });
 });
-

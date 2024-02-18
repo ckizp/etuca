@@ -61,6 +61,53 @@ class UserModel extends AbstractModel {
         return $this->runQuery("SELECT registration_date FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
     }
 
+    public function isBanned() {
+        return $this->runQuery("SELECT is_banned FROM users WHERE user_id = :id", [":id" => $this->id])->fetchColumn();
+    }
+
+    public function setUserName($userName) {
+        $query = "UPDATE users SET username = :pseudo WHERE user_id = :id";
+        $parameters = [":pseudo" => $userName, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function setFirstName($firstName) {
+        $query = "UPDATE users SET firstname = :firstname WHERE user_id = :id";
+        $parameters = [":firstname" => $firstName, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function setLastName($lastName) {
+        $query = "UPDATE users SET lastname = :lastname WHERE user_id = :id";
+        $parameters = [":lastname" => $lastName, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function setEmail($email) {
+        $query = "UPDATE users SET email = :email WHERE user_id = :id";
+        $parameters = [":email" => $email, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function setBan(bool $ban) {
+        $banValue = $ban ? 'TRUE' : 'FALSE';
+        $query = "UPDATE users SET is_banned = :ban WHERE user_id = :id";
+        $parameters = [":ban" => $banValue, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function setProfilePicture($photo) {
+        $query = "UPDATE users SET profile_picture = :photo WHERE user_id = :id";
+        $parameters = [":photo" => $photo, ":id" => $this->id];
+        $this->runQuery($query, $parameters, PDO::PARAM_LOB);
+    }
+
+    public function setPhoneNumber($number) {
+        $query = "UPDATE users SET phone_number = :number WHERE user_id = :id";
+        $parameters = [":number" => $number, ":id" => $this->id];
+        $this->runQuery($query, $parameters);
+    }
+    
     public function getPublications() : array {
         $query = "SELECT * FROM publications WHERE user_id = :id";
         $parameters = [":id" => $this->id];
@@ -86,6 +133,20 @@ class UserModel extends AbstractModel {
         return $friends;
     }
 
+    public function hasLiked(PublicationModel $publication) {
+        $query = "SELECT * FROM reactions WHERE user_id = :id AND publication_id = :pubid AND is_like = true";
+        $parameters = [":id" => $this->id, ":pubid" => $publication->getPublicationId()];
+        $statement = $this->runQuery($query, $parameters);
+        return $statement->rowCount() > 0 ? "1" : "0";
+    }
+
+    public function hasDisliked(PublicationModel $publication) {
+        $query = "SELECT * FROM reactions WHERE user_id = :id AND publication_id = :pubid AND is_like = false";
+        $parameters = [":id" => $this->id, ":pubid" => $publication->getPublicationId()];
+        $statement = $this->runQuery($query, $parameters);
+        return $statement->rowCount() > 0 ? "1" : "0";
+    }
+
     public function isFriendWith(UserModel $user) : bool {
         $query = "SELECT * FROM friends WHERE (friend_a_id = :id_a AND friend_b_id = :id_b) OR (friend_a_id = :id_b AND friend_b_id = :id_a)";
         $parameters = [":id_a" => $this->id, ":id_b" => $user->getUserId()];
@@ -94,11 +155,6 @@ class UserModel extends AbstractModel {
         return count($result) > 0;
     }
 
-    /**
-     * Return true if the user has already sent a friend request to the user given in parameter
-     * @param UserModel $user
-     * @return bool
-     */
     public function asSendFriendRequestTo(UserModel $user) : bool {
         $query = "SELECT * FROM friend_requests WHERE requester_id = :id_a AND receiver_id = :id_b";
         $parameters = [":id_b" => $user->getUserId(), ":id_a" => $this->id];
@@ -107,11 +163,6 @@ class UserModel extends AbstractModel {
         return count($result) > 0;
     }
 
-    /**
-     * Return true if the user has already received a friend request from the user given in parameter
-     * @param UserModel $user
-     * @return bool
-     */
     public function isWaitingToAcceptFriendRequest(UserModel $user) : bool {
         $query = "SELECT * FROM friend_requests WHERE requester_id = :id_b AND receiver_id = :id_a";
         $parameters = [":id_b" => $this->id, ":id_a" => $user->getUserId()];
@@ -120,11 +171,6 @@ class UserModel extends AbstractModel {
         return count($result) > 0;
     }
 
-
-    /**
-     * @param UserModel $user
-     * @return bool
-     */
     public function isAnyFriendRequestWith(UserModel $user) : bool {
         return $this->asSendFriendRequestTo($user) || $this->isWaitingToAcceptFriendRequest($user);
     }
@@ -160,6 +206,23 @@ class UserModel extends AbstractModel {
     public function declineFriendRequest(UserModel $user) {
         $query = "DELETE FROM friend_requests WHERE (requester_id = :id_b AND receiver_id = :id_a)";
         $parameters = [":id_a" => $this->id, ":id_b" => $user->getUserId()];
+        $this->runQuery($query, $parameters);
+    }
+
+    public function react(PublicationModel $publication, bool $reaction) {
+        $reactionValue = $reaction ? 'TRUE' : 'FALSE';
+
+        $query = "
+            INSERT INTO reactions (user_id, publication_id, is_like)
+            VALUES (:user_id, :publication_id, :react)
+            ON CONFLICT (user_id, publication_id) DO UPDATE
+            SET is_like = :react
+        ";
+        $parameters = [
+            ":user_id" => $this->id,
+            ":publication_id" => $publication->getPublicationId(),
+            ":react" => $reactionValue
+        ];
         $this->runQuery($query, $parameters);
     }
 }

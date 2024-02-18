@@ -3,11 +3,31 @@
     justify-content: space-around;
 }
 
+.users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.users > label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 #user-activity {
     background-color: white;
     width: calc(100% - 500px);
     border-radius: 5px;
     border: 1px solid #111111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+#user-activity button {
+    margin: 0 auto;
+    max-width: 243px
 }
 
 .infos {
@@ -34,7 +54,7 @@
     height: 120px;
 }
 
-.profile-picture #photo {
+.profile-picture #delete-photo {
     width: 20px;
     height: 20px;
     margin: 5px 0 0 5px;
@@ -63,6 +83,10 @@
     background-color: #F1F1F1;
 }
 
+.publication {
+    position: relative;
+}
+
 .publication-img {
     display: flex;
     width: 100%;
@@ -71,10 +95,19 @@
     margin: 10px 0;
 }
 
-.publication img {
+.article-img img {
     max-height: 200px;
     max-width: 100%;
     border-radius: 20px;
+}
+
+.publication .can {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
 }
 
 .user {
@@ -89,14 +122,16 @@
     margin-bottom: 4px;
     border-radius: 5px;
     border: 1px solid #111111;
+    cursor: pointer;
 }
 
-.user:hover, .user *:hover {
+.user * {
     cursor: pointer;
 }
 
 .user label {
     font-size: 19px;
+    margin-bottom: 2px;
 }
 
 .user p {

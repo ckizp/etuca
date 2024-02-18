@@ -1,9 +1,10 @@
 <?php $this->title = "Etuca - vos amis"; ?>
+<script src="web/js/search.js"></script>
 
 <div class="searchFriends">
     <div>
         <label for="inputSearch">Rechercher un utilisateur : </label>
-        <input type="text" id="inputSearch" placeholder="Chercher...">
+        <input type="text" id="inputSearch" placeholder="username">
         <div id="resultSearch" style="display: none;"></div>
     </div>
 

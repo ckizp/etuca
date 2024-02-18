@@ -7,9 +7,9 @@
   font-size: 13px;
 }
 
-.profile img {
+.profile #user-picture {
   width: 50%;
-  border: 2px solid black;
+  border: 3px solid black;
   border-radius: 50%;
 }
 
@@ -51,4 +51,52 @@ button:active {
 #declineButton:hover {
   cursor: pointer;
   background-color: #d7385e;
+}
+
+.profile div {
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+.profile #edit-picture {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background-color: #33c9ab;
+  border: 3px solid #379683;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+#action h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form {
+  max-width: 350px;
+  margin: 0px auto;
+  padding: 30px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form > label {
+  font-weight: bold;
+}
+
+input[type="file"] {
+  border: none;
+  font-size: 16px;
+  padding: 15px;
+  width: 93%;
+  background-color: #e8eeef;
+  margin-bottom: 15px;
 }

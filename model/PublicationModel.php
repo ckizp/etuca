@@ -64,14 +64,14 @@ class PublicationModel extends AbstractModel {
     }
 
     public function getLikes() {
-        $query = "SELECT * FROM reactions WHERE publication_id = :id AND like = 1";
+        $query = "SELECT * FROM reactions WHERE publication_id = :id AND is_like = true";
         $parameters = [":id" => $this->id];
         $statement = $this->runQuery($query, $parameters);
         return $statement->rowCount();
     }
 
     public function getDislikes() {
-        $query = "SELECT * FROM reactions WHERE publication_id = :id AND like = 0";
+        $query = "SELECT * FROM reactions WHERE publication_id = :id AND is_like = false";
         $parameters = [":id" => $this->id];
         $statement = $this->runQuery($query, $parameters);
         return $statement->rowCount();
