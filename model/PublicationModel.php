@@ -48,7 +48,7 @@ class PublicationModel extends AbstractModel {
     }
 
     public function getComments() {
-        $query = "SELECT * FROM comments WHERE publication_id = :id";
+        $query = "SELECT * FROM comments WHERE publication_id = :id ORDER BY comment_id";
         $parameters = [":id" => $this->id];
         $statement = $this->runQuery($query, $parameters);
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);

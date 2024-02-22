@@ -99,7 +99,7 @@ class Routeur {
                     case "new-username":
                         $this->adminController->newUsername();
                         return;
-                    case "new-email":
+                    case "new-mail":
                         $this->adminController->newEmail();
                         return;
                     case "ban":
@@ -108,9 +108,16 @@ class Routeur {
                     case "unban":
                         $this->adminController->setBanned(false);
                         return;
-                    case "admin-search";
+                    case "send-mail":
+                        $this->adminController->sendMail();
+                        return;
+                    case "admin-search":
                         $this->adminController->searchUsers();
-                        return;}
+                        return;
+                    case "delete":
+                        $this->adminController->deletePublication();
+                        return;
+                    }
             }
 
             switch($_GET["action"]) {

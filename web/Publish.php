@@ -12,7 +12,7 @@
         <textarea name="description" type="text" pattern="" required ></textarea>
 
         <label for="image">Photo</label>
-        <input name="image" type="file" accept="image/*">
+        <input name="image" type="file" accept="image/*" required>
 
         <label for="range">Porté de la Publication :</label>
         <div class="radio-list">

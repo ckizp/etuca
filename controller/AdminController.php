@@ -22,7 +22,7 @@ class AdminController {
 
     private function getUsers() : array {
         $connection = DataBase::connect();
-        $query = $connection->prepare("SELECT * FROM users ORDER BY user_id DESC LIMIT 10");
+        $query = $connection->prepare("SELECT * FROM users ORDER BY user_id DESC");
         $query->execute();
         $users = [];
 
@@ -44,7 +44,8 @@ class AdminController {
         $userId = $_GET['user'];
 
         // On crée l'utilisateur courante
-        $user = new UserModel($userId, $connexion);
+        $user = new UserModel((int) $userId, $connexion);
+        $sessionUser = new UserModel((int) $_SESSION['user'], $connexion);
 
         // On crée la réponse
         $profileURI = $user->getProfilePicture()->toURI();
@@ -59,10 +60,21 @@ class AdminController {
         $publications = $user->getPublications();
         $response .= "<div class='container'>";
         foreach ($publications as $publication) {
+            $pubid = $publication->getPublicationId();
             $response .= "<div class='publication'>";
             $response .= "<h3>" . $publication->getTitle() . "</h3>";
             $response .= "<p>" . $publication->getDescription() . "</p>";
             $response .= "<div class='article-img'><img src='" . $publication->getImage()->toURI() . "' alt='Image de la publication'></div>";
+            $response .= "<div class='reactions'>";
+            $response .= "<div class='like' id='$pubid'>";
+            $hasLiked = $sessionUser->hasLiked($publication);
+            $likes = $publication->getLikes();
+            $response .= "<img src='./web/img/$hasLiked.png'>$likes</div>";
+            $response .= "<div class='dislike' id='$pubid'>";
+            $hasDisliked = $sessionUser->hasDisliked($publication);
+            $dislikes = $publication->getDislikes();
+            $response .= "<img src='./web/img/$hasDisliked.png'>$dislikes</div>";
+            $response .= "</div><a id='$pubid' class='show-comment'>Voir les commentaires</a>";
             $response .= "<img class='can' id='" . $publication->getPublicationId() . "' src='web/img/can.png' alt='Icône de suppression'></div>";
         }
         $response .= "</div>";
@@ -101,7 +113,7 @@ class AdminController {
         $admin = new UserModel($_SESSION['user'], $connexion);
         $adminMail= $admin->getEmail();
 
-        $response = "<form action='index.php?action=send-mail' method='post'>";
+        $response = "<form id='" . $user->getUserId() . "' action='index.php?action=send-mail' method='post'>";
         $response .= "<label for='mailFrom'>Mail envoyé par : </label>";
         $response .= "<input type='text' id='mailFrom' name='mailFrom' placeholder='$adminMail' required readonly>";
         $response .= "<label for='mailTo'>Mail envoyé à : </label>";
@@ -158,6 +170,22 @@ class AdminController {
         $response .= "<img class='close' src='web/img/cross.png' alt='Icône de fermeture'>";
 
         echo $response;
+    }
+
+    public function sendMail() {
+        if (!isset($_POST['mailTo']) || !isset($_POST['mailSubject']) || !isset($_POST['mailContent'])) {
+            echo "Erreur lors de la récupération des données";
+            return;
+        }
+
+        $mailTo = $_POST['mailTo'];
+        $mailSubject = $_POST['mailSubject'];
+        $mailContent = $_POST['mailContent'];
+        $headers = "From: expeditaire@example.com\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+        // On envoie le mail
+        mail($mailTo, $mailSubject, $mailContent, $headers);
     }
 
     private function getUser() {
@@ -297,5 +325,20 @@ class AdminController {
             // Afficher les utilisateurs
             echo $response;
         }
+    }
+    
+    public function deletePublication() {
+        if (!isset($_GET['publication'])) {
+            echo "Erreur lors de la récupération de la publication";
+            return;
+        }
+
+        $connexion = DataBase::connect();
+        $publicationId = $_GET['publication'];
+
+        // on supprime la publication
+        $query = $connexion->prepare("DELETE FROM publications WHERE publication_id = :publication_id");
+        $query->bindParam(":publication_id", $publicationId);
+        $query->execute();
     }
 }

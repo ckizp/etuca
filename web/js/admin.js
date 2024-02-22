@@ -86,6 +86,8 @@ $(document).ready(function() {
     });
 
     $(document).on('submit', 'form', async function(event) {
+        if ($(this).attr('id') == "send-comment")
+            return;
         event.preventDefault();
         var formData = $(this).serialize() + "&user=" + $(this).attr('id');
 

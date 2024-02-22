@@ -48,6 +48,7 @@ body {
 .navbar li {
     transform: rotate(0);
     transition: transform 0.25s ease-in-out;
+    text-align: center;
 }
 
 .navbar li:hover {
@@ -175,6 +176,10 @@ footer {
     position: absolute;
     top: 8px;
     right: 8px;
+    cursor: pointer;
+}
+
+.like, .dislike, .show-comment {
     cursor: pointer;
 }
 
